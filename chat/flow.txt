@@ -1,0 +1,28 @@
+User A connects to the app by calling a URL such as http://127.0.0.1:8000/chat/lobby/.
+The app receives the request and calls the room view function, which return room.html
+template.
+The javascript in the room.html establishes a websocket connection with the app using the
+URL ws://127.0.0.1:8000/ws/chat/lobby/. The application after receiving a websocket connection
+connects it to the consumer ChatConsumer. The connect() method of the consumer is invoked and
+creates a variable room_group_name with value chat_lobby. Then the channel_layer method group_add
+is invoked to add the connection that has been received to the group chat_lobby and the connection
+is accepted.
+
+User B connects to the app also by calling a URL http://127.0.0.1:8000/chat/lobby/ in the browser.
+A similar process is followed as mentioned above for User A.
+
+Now the group chat_lobby has two channels, one for user A and one for user B
+
+User A types a message in the browser 'Hello' and presses enter. The javascript in the room.html
+using chat_socket.send() method sends a json object {'message': 'Hello'}
+User A's consumer receives this message and invokes the method receive. Receives gets the message
+'Hello' and creates another json object {'type': 'chat_message', 'message': 'Hello'} and sends it to
+the group chat_lobby using the channel_layer method group_send, which is sent as an event object.
+
+The consumer for User B receives this event object. It sees that the event object has a attribute 'type'
+with value 'chat_message', this tells the consumer that this event can be handled by a method chat_message
+The consumer has an implementation for chat_message and thus it forwards event to that method.
+The chat_message method get the value of 'message' which is 'Hello' and creates another Json object {'message':
+'Hello'} from it and sends it to the web browser via websocket connection. The Javascript that handles the
+connection at the browser receives the message and triggers the onmessage event. Which gets the value of 'message'
+that is 'Hello' and apends it to the '#chatlog' object and User B can see the message sent by User A.

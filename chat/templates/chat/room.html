@@ -19,9 +19,10 @@
         + roomName
         + '/'
     );
-
+    console.log(chatSocket.onmessage)
     chatSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
+        console.log('message received adding to the chat '+ data)
         document.querySelector('#chat-log').value += (data.message + '\n');
     };
 
