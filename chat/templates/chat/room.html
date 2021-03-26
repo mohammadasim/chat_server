@@ -19,7 +19,6 @@
         + roomName
         + '/'
     );
-    console.log(chatSocket.onmessage)
     chatSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
         console.log('message received adding to the chat '+ data)
@@ -40,10 +39,13 @@
     document.querySelector('#chat-message-submit').onclick = function (e) {
         const messageInputDom = document.querySelector('#chat-message-input');
         const message = messageInputDom.value;
-        chatSocket.send(JSON.stringify({
+        if(message){
+            chatSocket.send(JSON.stringify({
             'message': message
         }));
         messageInputDom.value = '';
+
+        }
     };
 </script>
 </body>

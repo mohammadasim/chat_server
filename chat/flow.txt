@@ -26,3 +26,12 @@ The chat_message method get the value of 'message' which is 'Hello' and creates 
 'Hello'} from it and sends it to the web browser via websocket connection. The Javascript that handles the
 connection at the browser receives the message and triggers the onmessage event. Which gets the value of 'message'
 that is 'Hello' and apends it to the '#chatlog' object and User B can see the message sent by User A.
+
+### PROBLEMS I FACED
+I hit some problems when setting up this application. Initially the messages were not being sent
+to all the channels in the group, but only one channel will receive the message a number of times
+this number would be the same as the number of channels in the group.
+I moved the routing to a separate file, I removed the http part from the top of the protocoltyperouter
+as that is there by default. I also upgraded channels and redis-channel to the version in requirements.txt
+However the problem was still there. When I updated the setting in base.py to
+ASGI_APPLICATION = 'chat_server.routing.application' the problem was resolved.

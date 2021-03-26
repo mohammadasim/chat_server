@@ -84,10 +84,7 @@ class ChatConsumer(WebsocketConsumer):
 
     # Receive message from room group
     def chat_message(self, event):
-        message = event['message']
-        print(f'Inside chat_message method, message is {message}')
+        print(f'Inside chat_message method, event is {event}')
 
         # send message to websocket
-        self.send(text_data=json.dumps({
-            'message': message
-        }))
+        self.send(text_data=json.dumps(event))

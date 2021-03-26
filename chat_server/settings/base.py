@@ -132,8 +132,9 @@ STATIC_URL = '/static/'
 # With channels in the installed apps and the following settings,
 # it will take control of the runserver command, replacing the
 # standard Django development server with Channels development server.
+# Here we are pointing that the urls are in chat_server.routing
 # Channels settings
-ASGI_APPLICATION = 'chat_server.asgi.application'
+ASGI_APPLICATION = 'chat_server.routing.application'
 # Channel Layer settings
 # we need to install channel_redis so that Channel knows to
 # to interface with Redis.Once installed, add the following
