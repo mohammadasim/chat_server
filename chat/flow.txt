@@ -35,3 +35,10 @@ I moved the routing to a separate file, I removed the http part from the top of 
 as that is there by default. I also upgraded channels and redis-channel to the version in requirements.txt
 However the problem was still there. When I updated the setting in base.py to
 ASGI_APPLICATION = 'chat_server.routing.application' the problem was resolved.
+
+### Rewriting chat server as asynchronous.
+The ChatConsumer that we have written is currently synchronous. Synchronous consumers are
+convenient because they can call regular synchronous I/O functions such as those that access
+Django models without writing special code. However asynchronous consumers can provide a
+high level of performance since they do not need to create additional threads when handling
+requests.
